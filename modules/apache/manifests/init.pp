@@ -42,24 +42,53 @@
 #
 class apache {
 
-    case $::operatingsystem {
-        centos, redhat: {
-            $apache_svc = 'httpd'
-            $apache_pkg = 'httpd'
-        }
-        default: { fail("Unrecognized OS: ${::operatingsystem}") }
-    }
+    # set all parameters in a reusable location
+    include ::apache::params
+
+    $webroot = "${apache::params::apache_default_root}"
 
     # install apache package
-    package { $apache_pkg:
+    package { "${apache::params::apache_pkg}":
         ensure  =>  installed,
     }
 
     # enable apache service
-    service { $apache_svc:
+    service { "${apache::params::apache_svc}":
         enable  =>  true,
-        restart =>  "/sbin/service ${apache_svc} graceful",
-        require =>  Package["${apache_pkg}"],
+        #restart =>  "/sbin/service ${apache::params::apache_svc} graceful",
+        require =>  Package["${apache::params::apache_pkg}"],
     }
+
+    # create vhosts configuration directory, used by apache conf
+    file { "${apache::params::vhosts_conf_dir}":
+        ensure  =>  directory,
+        recurse =>  false,
+        owner   =>  root,
+        group   =>  root,
+        mode    =>  0755,
+        require =>  Package["${apache::params::apache_pkg}"],
+    }
+
+    # install default httpd.conf
+    file { "${apache::params::apache_conf}":
+        ensure  =>  present,
+        mode    =>  0644,
+        owner   =>  root,
+        group   =>  root,
+        content =>  template("${apache::params::apache_conf_erb}"),
+        require =>  Package["${apache::params::apache_pkg}"],
+        notify  =>  Service["${apache::params::apache_svc}"],
+    }
+
+    # remove the default "welcome.conf" file
+    file { "${apache::params::remove_welcome}":
+        ensure  =>  absent,
+        owner   =>  root,
+        group   =>  root,
+        mode    =>  0644,
+        require =>  Package["${apache::params::apache_pkg}"],
+        notify  =>  Service["${apache::params::apache_svc}"],
+    }
+
 
 }

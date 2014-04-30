@@ -1,6 +1,6 @@
-# == Class: role::test_webserver
+# == Class: apache::params
 #
-# Full description of class role::test_webserver here.
+# Full description of class apache here.
 #
 # === Parameters
 #
@@ -32,7 +32,7 @@
 #
 # === Examples
 #
-#  class { 'role::test_webserver':
+#  class { 'apache':
 #    ntp_servers => [ 'pool.ntp.org', 'ntp.local.company.com' ]
 #  }
 #
@@ -40,8 +40,24 @@
 #
 # John Friar <jfriar@gmail.com>
 #
-class role::test_webserver inherits role {
+class apache::params {
 
-    include ::profile::apache::php
+    case $::operatingsystem {
+        centos, redhat: {
+            $apache_svc         = 'httpd'
+            $apache_pkg         = 'httpd'
+            $php_pkg            = 'php'
+
+            $apache_conf        = '/etc/httpd/conf/httpd.conf'
+            $apache_conf_erb    = 'apache/httpd_el.conf.erb'
+
+            $apache_default_root = '/vagrant/www/default'
+
+            $remove_welcome     = '/etc/httpd/conf.d/welcome.conf'
+
+            $vhosts_conf_dir    = '/etc/httpd/conf.d/vhosts'
+        }
+        default: { fail("Unrecognized OS: ${::operatingsystem}") }
+    }
 
 }

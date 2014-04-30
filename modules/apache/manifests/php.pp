@@ -1,6 +1,6 @@
-# == Class: role::test_webserver
+# == Class: apache::php
 #
-# Full description of class role::test_webserver here.
+# Full description of class apache here.
 #
 # === Parameters
 #
@@ -32,7 +32,7 @@
 #
 # === Examples
 #
-#  class { 'role::test_webserver':
+#  class { 'apache':
 #    ntp_servers => [ 'pool.ntp.org', 'ntp.local.company.com' ]
 #  }
 #
@@ -40,8 +40,15 @@
 #
 # John Friar <jfriar@gmail.com>
 #
-class role::test_webserver inherits role {
+class apache::php {
 
-    include ::profile::apache::php
+    include ::apache::params
+
+
+    # install php package
+    package { "${apache::params::php_pkg}":
+        ensure  =>  installed,
+        notify  =>  Service["${apache::params::apache_svc}"],
+    }
 
 }
