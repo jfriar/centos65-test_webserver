@@ -1,6 +1,6 @@
-# == Class: example_class
+# == Class: apache
 #
-# Full description of class example_class here.
+# Full description of class apache here.
 #
 # === Parameters
 #
@@ -32,7 +32,7 @@
 #
 # === Examples
 #
-#  class { 'example_class':
+#  class { 'apache':
 #    ntp_servers => [ 'pool.ntp.org', 'ntp.local.company.com' ]
 #  }
 #
@@ -40,26 +40,26 @@
 #
 # John Friar <jfriar@gmail.com>
 #
-class example_class (
-    $rpm_root = '/src/pkgs/local/RPMS'
-) {
+class apache {
+
     case $::operatingsystem {
         centos, redhat: {
-            $sshd_svc = 'sshd'
-            $sshd_pkg = 'openssh-server'
-            $ssh_pkg = 'openssh-clients'
-            $sshd_conf = '/etc/ssh/sshd_config'
-            $ssh_conf = '/etc/ssh/ssh_config'
-            case $::operatingsystemrelease {
-                /^6\.[0-9]+$/: { $vm_dist = 'rhel6' }
-                /^5\.[0-9]+$/: { $vm_dist = 'rhel5' }
-                default: { fail("Unhandled ${::operatingsystem} release: ${::operatingsystemrelease}") }
-            }
-            case $::architecture {
-                x86_64: { $vm_arch = 'x86_64' }
-                default: { $vm_arch = 'i386' }
-            }
+            $apache_svc = 'httpd'
+            $apache_pkg = 'httpd'
         }
         default: { fail("Unrecognized OS: ${::operatingsystem}") }
     }
+
+    # install apache package
+    package { $apache_pkg:
+        ensure  =>  installed,
+    }
+
+    # enable apache service
+    service { $apache_svc:
+        enable  =>  true,
+        restart =>  "/sbin/service ${apache_svc} graceful",
+        require =>  Package["${apache_pkg}"],
+    }
+
 }
