@@ -55,6 +55,7 @@ class apache {
     # enable apache service
     service { "${apache::params::apache_svc}":
         enable  =>  true,
+        ensure  =>  running,
         #restart =>  "/sbin/service ${apache::params::apache_svc} graceful",
         require =>  Package["${apache::params::apache_pkg}"],
     }
