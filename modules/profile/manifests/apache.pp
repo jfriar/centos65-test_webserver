@@ -1,6 +1,6 @@
-# == Class: role::test_webserver
+# == Class: profile::apache
 #
-# Full description of class role::test_webserver here.
+# Full description of class profile::apache here.
 #
 # === Parameters
 #
@@ -32,7 +32,7 @@
 #
 # === Examples
 #
-#  class { 'role::test_webserver':
+#  class { 'profile::apache':
 #    ntp_servers => [ 'pool.ntp.org', 'ntp.local.company.com' ]
 #  }
 #
@@ -40,8 +40,8 @@
 #
 # John Friar <jfriar@gmail.com>
 #
-class role::test_webserver inherits role {
+class profile::apache {
 
-    include ::profile::apache
+    include ::apache
 
 }

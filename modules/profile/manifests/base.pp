@@ -1,6 +1,6 @@
-# == Class: example_class
+# == Class: profile::base
 #
-# Full description of class example_class here.
+# Full description of class profile::base here.
 #
 # === Parameters
 #
@@ -32,7 +32,7 @@
 #
 # === Examples
 #
-#  class { 'example_class':
+#  class { 'profile::base':
 #    ntp_servers => [ 'pool.ntp.org', 'ntp.local.company.com' ]
 #  }
 #
@@ -40,26 +40,18 @@
 #
 # John Friar <jfriar@gmail.com>
 #
-class example_class (
-    $rpm_root = '/src/pkgs/local/RPMS'
-) {
+class profile::base {
+
     case $::operatingsystem {
         centos, redhat: {
-            $sshd_svc = 'sshd'
-            $sshd_pkg = 'openssh-server'
-            $ssh_pkg = 'openssh-clients'
-            $sshd_conf = '/etc/ssh/sshd_config'
-            $ssh_conf = '/etc/ssh/ssh_config'
-            case $::operatingsystemrelease {
-                /^6\.[0-9]+$/: { $vm_dist = 'rhel6' }
-                /^5\.[0-9]+$/: { $vm_dist = 'rhel5' }
-                default: { fail("Unhandled ${::operatingsystem} release: ${::operatingsystemrelease}") }
-            }
-            case $::architecture {
-                x86_64: { $vm_arch = 'x86_64' }
-                default: { $vm_arch = 'i386' }
-            }
+            $firewall = 'iptables'
         }
         default: { fail("Unrecognized OS: ${::operatingsystem}") }
     }
+
+    service { $firewall:
+        enable  =>  false,
+        ensure  =>  stopped,
+    }
+
 }
