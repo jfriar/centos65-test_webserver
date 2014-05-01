@@ -1,29 +1,23 @@
 # == Class: apache
 #
-# Full description of class apache here.
+# Installs apache web server package and installs a basic configuration
+# that, without a vhost defined, doesn't listen on any ports.  The
+# configuration makes minimal changes to RHEL/CentOS's default httpd.conf.
 #
 # === Parameters
 #
-# Document parameters here.
-#
-# [*ntp_servers*]
-#   Explanation of what this parameter affects and what it defaults to.
-#   e.g. "Specify one or more upstream ntp servers as an array."
+# See apache::params
 #
 # === Variables
 #
-# Here you should define a list of variables that this module would require.
-#
-# [*enc_ntp_servers*]
-#   Explanation of how this variable affects the funtion of this class and if it
-#   has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#   External Node Classifier as a comma separated list of hostnames." (Note,
-#   global variables should not be used in preference to class parameters  as of
-#   Puppet 2.6.)
+# None.
 #
 # === Actions
 #
-# - stuff
+# - installs apache
+# - creates a default location to auto-load vhost config files
+# - removes default welcome.conf
+# - ensure apache is running
 #
 # === Requires
 #
@@ -32,9 +26,7 @@
 #
 # === Examples
 #
-#  class { 'apache':
-#    ntp_servers => [ 'pool.ntp.org', 'ntp.local.company.com' ]
-#  }
+#  include ::apache
 #
 # === Authors
 #
@@ -44,8 +36,6 @@ class apache {
 
     # set all parameters in a reusable location
     include ::apache::params
-
-    $webroot = "${apache::params::apache_default_root}"
 
     # install apache package
     package { "${apache::params::apache_pkg}":
@@ -76,7 +66,8 @@ class apache {
         mode    =>  0644,
         owner   =>  root,
         group   =>  root,
-        content =>  template("${apache::params::apache_conf_erb}"),
+        source  =>  "${apache::params::apache_conf_src}",
+        #content =>  template("${apache::params::apache_conf_erb}"),
         require =>  Package["${apache::params::apache_pkg}"],
         notify  =>  Service["${apache::params::apache_svc}"],
     }
