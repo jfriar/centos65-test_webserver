@@ -63,8 +63,17 @@ define apache::vhost (
         $set_backup = puppet
     }
 
+    # make sure the docroot exists (apache DocumentRoot)
+    file { $docroot:
+        ensure  =>  directory,
+        owner   =>  root,
+        group   =>  root,
+        mode    =>  0755,
+        require =>  [Package["${apache::params::apache_pkg}"]],
+    }
+
     # install the vhost file
-    file { "$vhost_file":
+    file { $vhost_file:
         ensure  =>  $set_ensure,
         backup  =>  $set_backup,
         content =>  template($template),
