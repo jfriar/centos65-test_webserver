@@ -1,40 +1,57 @@
 # == Class: apache::params
 #
-# Defaults to use with ::apache class.
+# Default settings to use with the ::apache class.
+# These are separated out from other parts of the apache
+# module so that all parts of the apache module can use
+# the same default settings.
 #
 # === Parameters
 #
-# Document parameters here.
+# These aren't parameters in the old, puppet < 3 sense, but
+# are actually "sane" defaults to use with this apache module.
 #
-# [*ntp_servers*]
-#   Explanation of what this parameter affects and what it defaults to.
+# [*apache_svc*]
+#   The OS-specific apache service name.
+#
+# [*apache_pkg*]
+#   The OS-specific apache package name.
+#
+# [*apache_conf*]
+#   The OS-specific apache httpd.conf name (full path and filename).
+#
+# [*apache_conf_src*]
+#   The OS-specific apache httpd.conf source file.
+#
+# [*remove_welcome*]
+#   The OS-specific default apache configuration to remove.
 #   e.g. "Specify one or more upstream ntp servers as an array."
+#
+# [*vhosts_conf_dir*]
+#   The consistent directory location to store apache vhost configurations.
+#   Files in this directory are automatically included as per this module's
+#   apache_conf.
+#
+# [*vhosts_log_dir*]
+#   The consistent directory location to store apache vhost logs.
+#
+# [*php_pkg*]
+#   The OS-specific php package name.
 #
 # === Variables
 #
-# Here you should define a list of variables that this module would require.
-#
-# [*enc_ntp_servers*]
-#   Explanation of how this variable affects the funtion of this class and if it
-#   has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#   External Node Classifier as a comma separated list of hostnames." (Note,
-#   global variables should not be used in preference to class parameters  as of
-#   Puppet 2.6.)
+# None.
 #
 # === Actions
 #
-# - stuff
+# None.
 #
 # === Requires
 #
-# - logrotate
-# - repos (ccit repo)
+# None.
 #
 # === Examples
 #
-#  class { 'apache':
-#    ntp_servers => [ 'pool.ntp.org', 'ntp.local.company.com' ]
-#  }
+#  include ::apache::params
 #
 # === Authors
 #
@@ -44,9 +61,9 @@ class apache::params {
 
     case $::operatingsystem {
         centos, redhat: {
+            # apache defaults
             $apache_svc         = 'httpd'
             $apache_pkg         = 'httpd'
-            $php_pkg            = 'php'
 
             $apache_conf        = '/etc/httpd/conf/httpd.conf'
             $apache_conf_src    = 'puppet:///modules/apache/httpd_el.conf'
@@ -55,6 +72,9 @@ class apache::params {
 
             $vhosts_conf_dir    = '/etc/httpd/conf.d/vhosts'
             $vhosts_log_dir     = '/var/log/httpd'
+
+            # php defaults
+            $php_pkg            = 'php'
         }
         default: { fail("Unrecognized OS: ${::operatingsystem}") }
     }

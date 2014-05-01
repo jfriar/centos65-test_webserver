@@ -1,37 +1,50 @@
 # == Define: apache::vhost
 #
-# Full description of defined resource type apache::vhost here.
+# Installs an apache vhost configuration.
 #
 # === Parameters
 #
-# Document parameters here
+# [*docroot*]
+#   The DocumentRoot to use for the vhost.  Required.
 #
-# [*namevar*]
-#   If there is a parameter that defaults to the value of the title string
-#   when not explicitly set, you must always say so.  This parameter can be
-#   referred to as a "namevar," since it's functionally equivalent to the
-#   namevar of a core resource type.
+# [*port*]
+#   The port the apache vhost will listen on.  Required.
 #
-# [*basedir*]
-#   Description of this variable.  For example, "This parameter sets the
-#   base directory for this resource type.  It should not contain a trailing
-#   slash."
+# [*site*]
+#   The "name" of the vhost.  This will be used for directory
+#   structure.  Defaults to "$title".
+#
+# [*template*]
+#   The erb template to use for generating the vhost configuration.
+#   Defaults to "apache/vhost-template.conf.erb".
+#
+# [*options*]
+#   The apache "Options" to use with the vhost.
+#   Defaults to "Indexes FollowSymLinks MultiViews".
+#
+# [*override*]
+#   The apche "Override" to use with the vhost.
+#   Defaults to "none".
+#
+# [*disable*]
+#   If set to true, the apache vhost configuration will be removed.
+#   Defaults to "false".
 #
 # === Actions
 #
-# - stuff
+# - installs or removes a vhost configuration file
+# - ensures that the vhost DocumentRoot exists
 #
 # === Requires
 #
-# - logrotate
-# - repos (ccit repo)
+# - apache
+# - apache::params
 #
 # === Examples
 #
-# Provide some examples on how to use this type:
-#
-#   example_class::apache::vhost { 'namevar':
-#     basedir => '/tmp/src',
+#   apache::vhost { "localhost_81":
+#       docroot =>  '/var/www/localhost_81',
+#       port    =>  '81',
 #   }
 #
 # === Authors
@@ -43,7 +56,6 @@ define apache::vhost (
     $port,
     $site           =   $title,
     $template       =   'apache/vhost-template.conf.erb',
-    $serveraliases  =   '',
     $options        =   'Indexes FollowSymLinks MultiViews',
     $override       =   'none',
     $disable        =   'false'

@@ -1,40 +1,26 @@
 # == Class: role::test_webserver
 #
-# Full description of class role::test_webserver here.
+#  The role for the test webserver.
 #
 # === Parameters
 #
-# Document parameters here.
-#
-# [*ntp_servers*]
-#   Explanation of what this parameter affects and what it defaults to.
-#   e.g. "Specify one or more upstream ntp servers as an array."
+# None.
 #
 # === Variables
 #
-# Here you should define a list of variables that this module would require.
-#
-# [*enc_ntp_servers*]
-#   Explanation of how this variable affects the funtion of this class and if it
-#   has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#   External Node Classifier as a comma separated list of hostnames." (Note,
-#   global variables should not be used in preference to class parameters  as of
-#   Puppet 2.6.)
+# None.
 #
 # === Actions
 #
-# - stuff
+# None.
 #
 # === Requires
 #
-# - logrotate
-# - repos (ccit repo)
+# - role
 #
 # === Examples
 #
-#  class { 'role::test_webserver':
-#    ntp_servers => [ 'pool.ntp.org', 'ntp.local.company.com' ]
-#  }
+#  include ::role::test_webserver
 #
 # === Authors
 #

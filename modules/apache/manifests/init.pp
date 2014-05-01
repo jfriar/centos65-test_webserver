@@ -21,8 +21,7 @@
 #
 # === Requires
 #
-# - logrotate
-# - repos (ccit repo)
+# None.
 #
 # === Examples
 #
