@@ -51,7 +51,8 @@ class apache::params {
             $apache_conf        = '/etc/httpd/conf/httpd.conf'
             $apache_conf_erb    = 'apache/httpd_el.conf.erb'
 
-            $apache_default_root = '/vagrant/www/default'
+            #$apache_default_root = '/vagrant/www/default'
+            $apache_default_root = '/var/www/html'
 
             $remove_welcome     = '/etc/httpd/conf.d/welcome.conf'
 

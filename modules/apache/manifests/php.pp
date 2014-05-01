@@ -51,4 +51,16 @@ class apache::php {
         notify  =>  Service["${apache::params::apache_svc}"],
     }
 
+    # create default php file
+    $php_default_content = "<html>\n    <body>\n    <?php\n        phpinfo();\n    ?>\n    </body>\n</html>"
+
+    file { "${apache::params::apache_default_root}/index.php":
+        ensure  =>  present,
+        owner   =>  root,
+        group   =>  root,
+        mode    =>  0644,
+        content =>  $php_default_content,
+    }
+
+
 }
