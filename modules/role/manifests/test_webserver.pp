@@ -42,6 +42,6 @@
 #
 class role::test_webserver inherits role {
 
-    include ::profile::apache::php
+    include ::profile::apache::php::test_webserver
 
 }
