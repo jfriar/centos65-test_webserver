@@ -1,4 +1,4 @@
-Test of vagrant, puppet, and centos 6.5
+# Test of vagrant, puppet, and centos 6.5 #
 
 This sets up a very basic apache server, listening on
 ports 80 and 81.
@@ -8,5 +8,6 @@ the virtual machine's ports 80 and 81.
 
 To access from the host machine:
 
-http://localhost:8080
-http://localhost:8081
+- [http://localhost:8080](http://localhost:8080)
+- [http://localhost:8081](http://localhost:8081)
+
