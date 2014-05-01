@@ -16,6 +16,6 @@ the virtual machine's ports 80 and 81.
 
 3.  To access from the host machine:
 
-    [http://localhost:8080](http://localhost:8080)
-    [http://localhost:8081](http://localhost:8081)
+    - [http://localhost:8080](http://localhost:8080)
+    - [http://localhost:8081](http://localhost:8081)
 
