@@ -6,6 +6,11 @@ ports 80 and 81.
 Vagrant will forward your machine's ports 8080 and 8081 to
 the virtual machine's ports 80 and 81.
 
+The puppet configurations use the [Role/Profile] [1] concept to help
+abstract business function from technical implementation.
+
+    [1]: http://www.craigdunn.org/2012/05/239/  "Role/Profile"
+
 ## To use ##
 
 1.  clone this git repo:
