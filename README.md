@@ -8,13 +8,14 @@ the virtual machine's ports 80 and 81.
 
 ## To use ##
 
-1. clone this git repo: git clone https://github.com/jfriar/centos65-test_webserver.git
-2. start the vagrant box:
+1.  clone this git repo: git clone https://github.com/jfriar/centos65-test_webserver.git
+2.  start the vagrant box:
 
-cd centos65-test_webserver
-vagrant up
-3. To access from the host machine:
+        cd centos65-test_webserver
+        vagrant up
 
-- [http://localhost:8080](http://localhost:8080)
-- [http://localhost:8081](http://localhost:8081)
+3.  To access from the host machine:
+
+    [http://localhost:8080](http://localhost:8080)
+    [http://localhost:8081](http://localhost:8081)
 
