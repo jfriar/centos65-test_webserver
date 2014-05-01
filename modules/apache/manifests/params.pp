@@ -1,6 +1,6 @@
 # == Class: apache::params
 #
-# Full description of class apache here.
+# Defaults to use with ::apache class.
 #
 # === Parameters
 #
@@ -49,14 +49,12 @@ class apache::params {
             $php_pkg            = 'php'
 
             $apache_conf        = '/etc/httpd/conf/httpd.conf'
-            $apache_conf_erb    = 'apache/httpd_el.conf.erb'
-
-            #$apache_default_root = '/vagrant/www/default'
-            $apache_default_root = '/var/www/html'
+            $apache_conf_src    = 'puppet:///modules/apache/httpd_el.conf'
 
             $remove_welcome     = '/etc/httpd/conf.d/welcome.conf'
 
             $vhosts_conf_dir    = '/etc/httpd/conf.d/vhosts'
+            $vhosts_log_dir     = '/var/log/httpd'
         }
         default: { fail("Unrecognized OS: ${::operatingsystem}") }
     }
